@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#174d35">
+  <meta name="description" content="Pambala — apoio à decisão agrícola com dados ambientais e conhecimento sobre culturas.">
+  <title>Pambala | Agricultura inteligente</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://power.larc.nasa.gov">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#inicio" aria-label="Pambala início">
+        <span class="brand-mark">P</span><span><strong>Pambala</strong><small>AGRICULTURA INTELIGENTE</small></span>
+      </a>
+      <div class="nav-caption">ESPAÇO DE TRABALHO</div>
+      <nav class="main-nav" aria-label="Navegação principal">
+        <button class="nav-item active" data-view="inicio"><span class="nav-icon">⌂</span>Visão geral</button>
+        <button class="nav-item" data-view="localizacao"><span class="nav-icon">⌖</span>Localização</button>
+        <button class="nav-item" data-view="clima"><span class="nav-icon">☼</span>Dados ambientais</button>
+        <button class="nav-item" data-view="solo"><span class="nav-icon">♧</span>Perfil do terreno</button>
+        <button class="nav-item" data-view="culturas"><span class="nav-icon">♣</span>Culturas agrícolas</button>
+        <button class="nav-item" data-view="recomendacoes"><span class="nav-icon">✧</span>Recomendações</button>
+        <button class="nav-item" data-view="historico"><span class="nav-icon">◷</span>Histórico</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="source-mini"><span class="pulse"></span><div><strong>Fontes transparentes</strong><small>Dados e limitações identificados</small></div></div>
+        <div class="sidebar-version">Pambala · versão inicial</div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Abrir menu">☰</button>
+        <div><span class="topbar-kicker">PLATAFORMA DE APOIO AGRÍCOLA</span><h1 id="pageTitle">Visão geral</h1></div>
+        <div class="topbar-right"><span class="connection-dot"></span><span id="connectionText">Pronto para analisar</span><div class="avatar">PA</div></div>
+      </header>
+
+      <div class="content">
+        <!-- INÍCIO -->
+        <section class="view active" id="view-inicio">
+          <div class="hero">
+            <div class="hero-copy">
+              <span class="eyebrow light">DECISÕES AGRÍCOLAS COM MAIS INFORMAÇÃO</span>
+              <h2>Plante com conhecimento.<br><em>Cuide melhor do solo.</em></h2>
+              <p>Combine observações ambientais, características do terreno e conhecimento agrícola para comparar opções de plantação.</p>
+              <button class="btn btn-light" data-go="localizacao">Começar uma análise <span>→</span></button>
+            </div>
+            <div class="hero-art" aria-hidden="true"><div class="sun"></div><div class="hill hill-back"></div><div class="hill hill-front"></div><div class="plant plant-one">♣</div><div class="plant plant-two">♧</div></div>
+            <div class="hero-foot"><span>01 — OBSERVAR</span><span>02 — COMPREENDER</span><span>03 — DECIDIR</span></div>
+          </div>
+
+          <div class="section-head"><div><span class="eyebrow">O TEU ESPAÇO DE TRABALHO</span><h2>Uma análise, quatro dimensões</h2><p>Comece pela localização e avance até às recomendações.</p></div></div>
+          <div class="feature-grid">
+            <button class="feature-card" data-go="clima"><span class="feature-icon gold">☼</span><span class="feature-number">01 / AMBIENTE</span><strong>Dados ambientais</strong><small>Temperatura, chuva e indicadores de satélite.</small><span class="feature-link">Consultar dados <b>↗</b></span></button>
+            <button class="feature-card" data-go="solo"><span class="feature-icon clay">♧</span><span class="feature-number">02 / TERRENO</span><strong>Perfil do terreno</strong><small>Registe textura, humidade, drenagem e pH.</small><span class="feature-link">Caracterizar solo <b>↗</b></span></button>
+            <button class="feature-card" data-go="culturas"><span class="feature-icon sage">♣</span><span class="feature-number">03 / CULTURAS</span><strong>Conhecimento agrícola</strong><small>Compare necessidades e características das culturas.</small><span class="feature-link">Ver culturas <b>↗</b></span></button>
+            <button class="feature-card" data-go="recomendacoes"><span class="feature-icon lilac">✧</span><span class="feature-number">04 / DECISÃO</span><strong>Recomendações</strong><small>Veja a adequação estimada e os motivos de cada resultado.</small><span class="feature-link">Analisar opções <b>↗</b></span></button>
+          </div>
+
+          <div class="bottom-grid">
+            <div class="panel location-panel"><div class="panel-title"><div><span class="eyebrow">TERRENO EM ANÁLISE</span><h3 id="homeLocation">Localização por definir</h3></div><span class="soft-tag" id="homeCoords">Sem coordenadas</span></div><p id="homeLocationHint">Escolha um ponto no mapa ou introduza as coordenadas para começar.</p><button class="text-button" data-go="localizacao">Definir localização →</button></div>
+            <div class="panel readiness-panel"><span class="eyebrow">PREPARAÇÃO DA ANÁLISE</span><div class="readiness-line"><span>Dados ambientais</span><strong id="readyClimate">Por consultar</strong></div><div class="readiness-line"><span>Perfil do solo</span><strong id="readySoil">Por preencher</strong></div><div class="readiness-line"><span>Base de culturas</span><strong>Disponível</strong></div><div class="readiness-line"><span>Recomendações</span><strong id="readyDecision">A aguardar dados</strong></div></div>
+          </div>
+          <p class="disclaimer">O Pambala é uma ferramenta de apoio à decisão. As recomendações são indicativas e não substituem análises laboratoriais nem aconselhamento de um técnico agrário.</p>
+        </section>
+
+        <!-- LOCALIZAÇÃO -->
+        <section class="view" id="view-localizacao">
+          <div class="page-intro"><span class="eyebrow">PASSO 01 / LOCALIZAÇÃO</span><h2>Onde fica o teu terreno?</h2><p>Escolhe um ponto no mapa ou introduz as coordenadas. A localização será usada para consultar os dados ambientais.</p></div>
+          <div class="two-col location-layout">
+            <div class="panel form-panel">
+              <div class="panel-title"><h3>Coordenadas do terreno</h3><span class="soft-tag">WGS84</span></div>
+              <label>Nome do terreno<input id="placeName" type="text" placeholder="Ex.: Horta da família"></label>
+              <div class="form-row"><label>Latitude<input id="latitude" type="number" step="0.0001" min="-90" max="90" placeholder="-8.8389"></label><label>Longitude<input id="longitude" type="number" step="0.0001" min="-180" max="180" placeholder="13.2894"></label></div>
+              <div class="button-row"><button class="btn btn-outline" id="useLocation">Usar a minha localização</button><button class="btn btn-primary" id="saveLocation">Guardar localização</button></div>
+              <p class="field-note">A localização do dispositivo só é consultada se autorizares o navegador. Também podes clicar diretamente no mapa.</p>
+              <div class="saved-location" id="savedLocation"><span class="pin">⌖</span><span><strong>Nenhum terreno selecionado</strong><small>As coordenadas guardadas aparecerão aqui.</small></span></div>
+            </div>
+            <div class="panel map-panel"><div class="panel-title"><div><h3>Selecionar no mapa</h3><p>Clica no local aproximado do terreno.</p></div><span class="map-credit">OpenStreetMap</span></div><div id="map" role="application" aria-label="Mapa para selecionar a localização"></div><div class="map-foot"><span>◎ Clica no mapa para marcar o terreno</span><span id="mapCoords">-8.8389, 13.2894</span></div></div>
+          </div>
+        </section>
+
+        <!-- CLIMA -->
+        <section class="view" id="view-clima">
+          <div class="page-intro"><span class="eyebrow">PASSO 02 / OBSERVAÇÃO DA TERRA</span><h2>Conhece as condições ambientais</h2><p>Consulta séries diárias da NASA POWER para o ponto selecionado. Os valores incluem datas, unidades e fonte.</p></div>
+          <div class="panel query-panel">
+            <div class="query-location"><span class="pin">⌖</span><div><small>LOCALIZAÇÃO ATIVA</small><strong id="climatePlace">Nenhuma localização definida</strong><small id="climateCoords">Escolhe primeiro um terreno.</small></div></div>
+            <div class="query-controls"><label>Data inicial<input type="date" id="startDate"></label><label>Data final<input type="date" id="endDate"></label><button class="btn btn-primary" id="fetchClimate">Consultar NASA POWER</button></div>
+          </div>
+          <div class="notice notice-info" id="climateNotice"><strong>Antes de consultar:</strong> seleciona uma localização. A NASA POWER fornece dados meteorológicos em grelha; não representa uma medição feita exatamente dentro da tua parcela.</div>
+          <div class="metric-grid">
+            <article class="metric-card"><span>Temperatura média</span><strong id="metricTemp">— <small>°C</small></strong><small id="metricTempDate">Aguardando consulta</small></article>
+            <article class="metric-card"><span>Precipitação acumulada</span><strong id="metricRain">— <small>mm</small></strong><small id="metricRainDate">Aguardando consulta</small></article>
+            <article class="metric-card"><span>Humidade relativa média</span><strong id="metricHumidity">— <small>%</small></strong><small id="metricHumidityDate">Aguardando consulta</small></article>
+            <article class="metric-card"><span>Dias com chuva</span><strong id="metricRainDays">— <small>dias</small></strong><small id="metricRainDaysDate">No período consultado</small></article>
+          </div>
+          <div class="panel chart-panel"><div class="panel-title"><div><h3>Temperatura e precipitação diária</h3><p id="chartSubtitle">Os dados aparecerão depois da consulta.</p></div><span class="source-tag">NASA POWER · DAILY</span></div><div class="chart-wrap"><canvas id="climateChart" height="110"></canvas><div id="chartEmpty" class="empty-chart">Ainda não existem dados para apresentar.</div></div><div class="table-wrap"><table><thead><tr><th>Data</th><th>Temperatura média</th><th>Precipitação</th><th>Humidade relativa</th></tr></thead><tbody id="climateRows"><tr><td colspan="4" class="empty-cell">Aguardando consulta de dados.</td></tr></tbody></table></div></div>
+          <div class="source-grid"><div class="source-card"><span class="source-status available">API pública</span><strong>NASA POWER</strong><p>Temperatura do ar, precipitação corrigida e humidade relativa. Resolução e metodologia dependem do parâmetro.</p><a href="https://power.larc.nasa.gov/docs/services/api/temporal/daily/" target="_blank" rel="noopener">Documentação oficial ↗</a></div><div class="source-card"><span class="source-status pending">Integração adicional</span><strong>Humidade do solo · SMAP</strong><p>O acesso a produtos SMAP requer selecionar um produto e implementar um serviço de processamento geoespacial. Não é estimado nesta versão.</p><a href="https://earth.gsfc.nasa.gov/hydro/data/nasa-usda-global-soil-moisture-data" target="_blank" rel="noopener">Informação NASA ↗</a></div><div class="source-card"><span class="source-status pending">Integração adicional</span><strong>Vegetação · NDVI</strong><p>O produto MODIS MOD13Q1 fornece NDVI em composições de 16 dias e resolução de 250 m. A extração pontual exige processamento geoespacial.</p><a href="https://modarch.gsfc.nasa.gov/data/dataprod/mod13.php" target="_blank" rel="noopener">Produto MODIS ↗</a></div></div>
+        </section>
+
+        <!-- SOLO -->
+        <section class="view" id="view-solo">
+          <div class="page-intro"><span class="eyebrow">PASSO 03 / CARACTERIZAÇÃO</span><h2>Descreve o teu terreno</h2><p>Regista o que conheces sobre o solo. Campos desconhecidos podem ficar por preencher; o sistema indicará a incerteza.</p></div>
+          <form id="soilForm" class="panel soil-form">
+            <div class="form-section"><div><span class="step-index">A</span></div><div class="form-section-content"><h3>Condições observadas</h3><p>Como se apresenta o terreno neste momento?</p><div class="form-row"><label>Humidade observada<select id="soilMoisture"><option value="">Selecionar</option><option value="dry">Seca</option><option value="normal">Normal</option><option value="wet">Muito húmida</option></select></label><label>Textura do solo<select id="soilTexture"><option value="">Não sei / não observado</option><option value="sandy">Arenosa</option><option value="loamy">Franca</option><option value="clayey">Argilosa</option></select></label></div><div class="form-row"><label>Drenagem<select id="soilDrainage"><option value="">Não sei</option><option value="good">Boa</option><option value="moderate">Moderada</option><option value="poor">Fraca</option></select></label><label>Fertilidade conhecida<select id="soilFertility"><option value="">Não sei</option><option value="low">Baixa</option><option value="medium">Média</option><option value="high">Alta</option></select></label></div></div></div>
+            <div class="form-section"><div><span class="step-index">B</span></div><div class="form-section-content"><h3>Acidez do solo</h3><p>Introduz o pH apenas se tiveres uma medição fiável.</p><div class="form-row"><label>pH medido (opcional)<input id="soilPh" type="number" min="0" max="14" step="0.1" placeholder="Ex.: 6.5"></label><label>Método de medição<select id="soilPhMethod"><option value="">Não medido</option><option value="meter">Medidor calibrado</option><option value="lab">Análise laboratorial</option><option value="kit">Kit de teste</option></select></label></div><div class="notice notice-warn">A cor do solo ou um teste caseiro com ingredientes domésticos não determina um valor de pH preciso. Para decisões de correção do solo, usa um kit adequado ou análise laboratorial.</div></div></div>
+            <div class="form-section"><div><span class="step-index">C</span></div><div class="form-section-content"><h3>Histórico agrícola</h3><p>O que foi cultivado anteriormente e quais são as tuas prioridades?</p><div class="form-row"><label>Cultura anterior<select id="previousCrop"><option value="">Não informado</option><option value="maize">Milho</option><option value="bean">Feijão</option><option value="cassava">Mandioca</option><option value="groundnut">Amendoim</option><option value="sorghum">Sorgo</option><option value="fallow">Pousio / sem cultura</option><option value="other">Outra</option></select></label><label>Prioridade principal<select id="priority"><option value="balanced">Equilíbrio geral</option><option value="water">Poupar água</option><option value="soil">Melhorar o solo</option><option value="food">Produção alimentar</option><option value="short">Ciclo mais curto</option></select></label></div><label>Observações adicionais<textarea id="soilNotes" rows="3" placeholder="Ex.: o terreno fica encharcado depois de chuvas fortes..."></textarea></label></div></div>
+            <div class="form-actions"><span id="soilSaveStatus">Os dados ficam guardados neste navegador.</span><button class="btn btn-primary" type="submit">Guardar perfil do terreno</button></div>
+          </form>
+        </section>
+
+        <!-- CULTURAS -->
+        <section class="view" id="view-culturas">
+          <div class="page-intro"><span class="eyebrow">PASSO 04 / BASE DE CONHECIMENTO</span><h2>Conhece as culturas</h2><p>Uma primeira biblioteca de culturas alimentares comuns na região. Os intervalos são referências preliminares, não variedades locais validadas.</p></div>
+          <div class="notice notice-warn"><strong>Nota agronómica:</strong> os parâmetros desta biblioteca são valores indicativos para prototipagem. Antes de aconselhamento de campo, devem ser revistos com fontes agronómicas angolanas, variedades, época de sementeira e condições locais.</div>
+          <div class="crop-toolbar"><input id="cropSearch" type="search" placeholder="Pesquisar cultura..."><span id="cropCount">0 culturas</span></div>
+          <div class="crop-grid" id="cropGrid"></div>
+        </section>
+
+        <!-- RECOMENDAÇÕES -->
+        <section class="view" id="view-recomendacoes">
+          <div class="page-intro"><span class="eyebrow">PASSO 05 / MOTOR DE DECISÃO</span><h2>Compara as opções de plantação</h2><p>O motor combina clima consultado, perfil do terreno, cultura anterior e prioridade selecionada.</p></div>
+          <div class="decision-summary panel"><div><span class="eyebrow">BASE DA ANÁLISE</span><h3 id="decisionLocation">Localização por definir</h3><p id="decisionSummaryText">Guarda a localização, consulta os dados ambientais e preenche o perfil do solo.</p></div><button class="btn btn-primary" id="runDecision">Calcular adequação</button></div>
+          <div id="decisionWarnings" class="notice notice-warn"><strong>Dados em falta:</strong> as recomendações ainda não podem ser calculadas com contexto suficiente.</div>
+          <div id="recommendationResults" class="recommendation-list"><div class="empty-state"><span>✧</span><strong>Ainda não há recomendações</strong><p>Completa os dados necessários e executa a análise.</p></div></div>
+          <p class="disclaimer">A pontuação é uma triagem comparativa baseada nos critérios indicados e na qualidade dos dados disponíveis. Não é uma previsão de produtividade nem uma garantia de colheita.</p>
+        </section>
+
+        <!-- HISTÓRICO -->
+        <section class="view" id="view-historico">
+          <div class="page-intro"><span class="eyebrow">REGISTO DE ATIVIDADE</span><h2>Histórico de análises</h2><p>Consulta as análises guardadas neste dispositivo.</p></div>
+          <div class="panel history-panel"><div class="panel-title"><h3>Análises anteriores</h3><button class="text-button" id="clearHistory">Limpar histórico</button></div><div id="historyList"><div class="empty-state"><span>◷</span><strong>Sem análises guardadas</strong><p>As análises calculadas aparecerão aqui.</p></div></div></div>
+        </section>
+
+        <footer class="app-footer"><span>© Pambala · Projeto de agricultura inteligente</span><span>Dados ambientais: NASA POWER · Mapa: © OpenStreetMap</span></footer>
+      </div>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

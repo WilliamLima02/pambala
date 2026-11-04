@@ -1,0 +1,228 @@
+[
+  {
+    "id": "maize",
+    "name": "Milho",
+    "scientific": "Zea mays",
+    "emoji": "🌽",
+    "cycle": [
+      90,
+      150
+    ],
+    "temp": [
+      18,
+      30
+    ],
+    "rain": [
+      500,
+      800
+    ],
+    "water": "Média a alta",
+    "texture": [
+      "loamy",
+      "clayey"
+    ],
+    "drainage": [
+      "good",
+      "moderate"
+    ],
+    "ph": [
+      5.5,
+      7.5
+    ],
+    "nutrients": "Exigente em azoto e fósforo; remove nutrientes se os resíduos forem retirados.",
+    "soilContribution": "Resíduos podem fornecer matéria orgânica se forem devolvidos ao solo.",
+    "rotation": [
+      "bean",
+      "groundnut"
+    ],
+    "note": "Evitar sucessão contínua sem reposição de nutrientes e controlo de pragas."
+  },
+  {
+    "id": "bean",
+    "name": "Feijão comum",
+    "scientific": "Phaseolus vulgaris",
+    "emoji": "🫘",
+    "cycle": [
+      70,
+      100
+    ],
+    "temp": [
+      18,
+      28
+    ],
+    "rain": [
+      300,
+      500
+    ],
+    "water": "Média; evitar encharcamento",
+    "texture": [
+      "sandy",
+      "loamy"
+    ],
+    "drainage": [
+      "good"
+    ],
+    "ph": [
+      5.5,
+      7.0
+    ],
+    "nutrients": "Necessita fósforo e outros nutrientes; a fixação de azoto depende de nodulação eficaz.",
+    "soilContribution": "Leguminosa que pode contribuir para o azoto do sistema quando bem nodulada e manejada.",
+    "rotation": [
+      "maize",
+      "cassava"
+    ],
+    "note": "Sensível ao excesso de água e a várias doenças; a variedade e a época são determinantes."
+  },
+  {
+    "id": "cassava",
+    "name": "Mandioca",
+    "scientific": "Manihot esculenta",
+    "emoji": "🥔",
+    "cycle": [
+      9,
+      18
+    ],
+    "temp": [
+      20,
+      30
+    ],
+    "rain": [
+      500,
+      1200
+    ],
+    "water": "Baixa a média após estabelecimento",
+    "texture": [
+      "sandy",
+      "loamy"
+    ],
+    "drainage": [
+      "good",
+      "moderate"
+    ],
+    "ph": [
+      5.0,
+      7.0
+    ],
+    "nutrients": "Extrai potássio em quantidades relevantes; exige reposição conforme o solo e a colheita.",
+    "soilContribution": "Cobertura e resíduos bem manejados podem ajudar a proteger o solo.",
+    "rotation": [
+      "bean",
+      "groundnut"
+    ],
+    "note": "Tolera períodos secos depois de estabelecida, mas o encharcamento prejudica as raízes."
+  },
+  {
+    "id": "groundnut",
+    "name": "Amendoim",
+    "scientific": "Arachis hypogaea",
+    "emoji": "🥜",
+    "cycle": [
+      90,
+      140
+    ],
+    "temp": [
+      22,
+      30
+    ],
+    "rain": [
+      500,
+      700
+    ],
+    "water": "Média; sensível ao encharcamento",
+    "texture": [
+      "sandy",
+      "loamy"
+    ],
+    "drainage": [
+      "good"
+    ],
+    "ph": [
+      5.5,
+      7.0
+    ],
+    "nutrients": "Leguminosa; cálcio é importante na zona de formação das vagens.",
+    "soilContribution": "Pode contribuir para a rotação e fixação biológica de azoto.",
+    "rotation": [
+      "maize",
+      "cassava"
+    ],
+    "note": "Solos leves e bem drenados facilitam a formação e colheita das vagens."
+  },
+  {
+    "id": "sorghum",
+    "name": "Sorgo",
+    "scientific": "Sorghum bicolor",
+    "emoji": "🌾",
+    "cycle": [
+      90,
+      130
+    ],
+    "temp": [
+      22,
+      32
+    ],
+    "rain": [
+      350,
+      700
+    ],
+    "water": "Baixa a média",
+    "texture": [
+      "sandy",
+      "loamy",
+      "clayey"
+    ],
+    "drainage": [
+      "good",
+      "moderate"
+    ],
+    "ph": [
+      5.5,
+      8.0
+    ],
+    "nutrients": "Resposta a azoto e fósforo depende da fertilidade e do rendimento esperado.",
+    "soilContribution": "Resíduos podem proteger a superfície e acrescentar matéria orgânica.",
+    "rotation": [
+      "bean",
+      "groundnut"
+    ],
+    "note": "Mais tolerante à seca que várias culturas de cereais, mas não é imune à falta de água."
+  },
+  {
+    "id": "sweet_potato",
+    "name": "Batata-doce",
+    "scientific": "Ipomoea batatas",
+    "emoji": "🍠",
+    "cycle": [
+      90,
+      150
+    ],
+    "temp": [
+      20,
+      30
+    ],
+    "rain": [
+      450,
+      750
+    ],
+    "water": "Média",
+    "texture": [
+      "sandy",
+      "loamy"
+    ],
+    "drainage": [
+      "good"
+    ],
+    "ph": [
+      5.5,
+      6.5
+    ],
+    "nutrients": "Necessita potássio e equilíbrio nutricional; excesso de azoto pode favorecer ramas.",
+    "soilContribution": "Cobertura foliar pode proteger o solo durante parte do ciclo.",
+    "rotation": [
+      "bean",
+      "groundnut"
+    ],
+    "note": "Solos soltos e bem drenados favorecem raízes comerciais."
+  }
+]
