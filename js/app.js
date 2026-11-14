@@ -22,12 +22,45 @@ function showToast(message) {
   const toast = $("#toast"); toast.textContent = message; toast.classList.add("show");
   clearTimeout(showToast.timer); showToast.timer = setTimeout(() => toast.classList.remove("show"), 2600);
 }
+function readHistory() {
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }
+  catch { return []; }
+}
+function updateWorkflow(view = "inicio") {
+  const steps = [
+    { key: "localizacao", label: "Definir a localização", done: Boolean(state.location) },
+    { key: "clima", label: "Consultar os dados ambientais", done: Boolean(state.climate) },
+    { key: "solo", label: "Caracterizar o terreno", done: Boolean(state.soil) },
+    { key: "culturas", label: "Conhecer as culturas", done: Array.isArray(crops) && crops.length > 0 },
+    { key: "recomendacoes", label: "Calcular as recomendações", done: readHistory().length > 0 }
+  ];
+  const activeIndex = steps.findIndex(step => step.key === view);
+  const status = $("#workflowStatus");
+  if (status) {
+    if (view === "historico") status.textContent = "Consulta as análises anteriores";
+    else if (view === "inicio") status.textContent = "Segue as etapas para preparar uma análise";
+    else status.textContent = `Etapa ${activeIndex + 1} de 5 · ${steps[activeIndex]?.label || ""}`;
+  }
+  $$(".workflow-node").forEach((node, index) => {
+    const step = steps[index];
+    node.classList.toggle("active", step.key === view);
+    node.classList.toggle("completed", step.done && step.key !== view);
+    node.setAttribute("aria-current", step.key === view ? "step" : "false");
+    const number = node.querySelector(".node-number");
+    if (number) number.textContent = step.done && step.key !== view ? "✓" : String(index + 1).padStart(2, "0");
+  });
+  $$(".workflow-line").forEach((line, index) => line.classList.toggle("done", steps[index].done));
+  $$(".workflow-item").forEach((item, index) => {
+    item.classList.toggle("completed", steps[index].done && steps[index].key !== view);
+  });
+}
 function setView(view) {
   $$(".view").forEach(el => el.classList.toggle("active", el.id === `view-${view}`));
   $$(".nav-item").forEach(el => el.classList.toggle("active", el.dataset.view === view));
   const labels = { inicio:"Visão geral", localizacao:"Localização", clima:"Dados ambientais", solo:"Perfil do terreno", culturas:"Culturas agrícolas", recomendacoes:"Recomendações", historico:"Histórico" };
   $("#pageTitle").textContent = labels[view] || "Pambala";
   $("#sidebar").classList.remove("open");
+  updateWorkflow(view);
   if (view === "localizacao") setTimeout(initMap, 80);
   if (view === "culturas") renderCrops();
   if (view === "historico") renderHistory();
@@ -58,6 +91,7 @@ function updateLocationUI() {
   $("#readyClimate").textContent = state.climate ? "Consultado" : "Por consultar";
   $("#readySoil").textContent = state.soil ? "Preenchido" : "Por preencher";
   $("#readyDecision").textContent = state.climate && state.soil ? "Pronto para análise" : "A aguardar dados";
+  updateWorkflow(document.querySelector(".view.active")?.id.replace("view-", "") || "inicio");
 }
 function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c])); }
 
@@ -208,7 +242,7 @@ $("#soilForm").addEventListener("submit", e => {
     fertility:$("#soilFertility").value, ph:phRaw===""?null:Number(phRaw), phMethod:$("#soilPhMethod").value,
     previousCrop:$("#previousCrop").value, priority:$("#priority").value, notes:$("#soilNotes").value.trim()
   };
-  saveState();updateLocationUI();$("#soilSaveStatus").textContent="Perfil guardado com sucesso neste navegador.";
+  saveState();updateLocationUI();updateWorkflow("solo");$("#soilSaveStatus").textContent="Perfil guardado com sucesso neste navegador.";
   showToast("Perfil do terreno guardado.");
 });
 function hydrateSoil() {
@@ -221,6 +255,7 @@ function hydrateSoil() {
 async function loadCrops() {
   try { const res=await fetch("data/crops.json"); if(!res.ok)throw Error("Não foi possível ler crops.json"); crops=await res.json(); }
   catch { crops=[]; showToast("Não foi possível carregar a base de culturas."); }
+  updateWorkflow(document.querySelector(".view.active")?.id.replace("view-", "") || "inicio");
 }
 function renderCrops(filter="") {
   const filtered=crops.filter(c=>`${c.name} ${c.scientific}`.toLowerCase().includes(filter.toLowerCase()));
@@ -253,9 +288,7 @@ function calculateRecommendations() {
   if(s.ph===null)missing.push("pH medido");
   const results=crops.map(c=>{
     let score=50, reasons=[], cautions=[];
-    // Temperature: only a recent-period screening comparison, not a forecast of the full crop cycle.
     if(avgTemp!==null){const mid=(c.temp[0]+c.temp[1])/2;const delta=Math.abs(avgTemp-mid);const pts=Math.max(0,20-delta*2);score+=pts-10;reasons.push(`Temperatura recente: ${avgTemp.toFixed(1)} °C; referência ${c.temp[0]}–${c.temp[1]} °C`);if(avgTemp<c.temp[0]||avgTemp>c.temp[1])cautions.push("Temperatura recente fora do intervalo de referência");}
-    // Monthly rainfall rate is not directly comparable to crop-cycle total; deliberately low weight.
     if(monthlyRain>0){let rainScore=monthlyRain>=c.rain[0]/4 && monthlyRain<=c.rain[1]/2?10:4;score+=rainScore-7;reasons.push(`Chuva recente anualizada: ${monthlyRain.toFixed(0)} mm/mês (não equivale à chuva do ciclo)`);}
     if(s.texture){if(c.texture.includes(s.texture)){score+=12;reasons.push("Textura informada compatível com a referência");}else{score-=8;cautions.push("Textura informada não coincide com as preferências da ficha");}}
     if(s.drainage){if(c.drainage.includes(s.drainage)){score+=8;reasons.push("Drenagem informada compatível");}else{score-=10;cautions.push("Drenagem pode aumentar o risco para esta cultura");}}
@@ -283,12 +316,13 @@ function saveHistory(best,avgTemp,totalRain,days) {
   history.unshift({date:new Date().toISOString(),location:state.location.name,score:best.score,crop:best.name,avgTemp,totalRain,days});
   localStorage.setItem(HISTORY_KEY,JSON.stringify(history.slice(0,30)));
   renderHistory();
+  updateWorkflow(document.querySelector(".view.active")?.id.replace("view-", "") || "inicio");
 }
 function renderHistory() {
   let history=[];try{history=JSON.parse(localStorage.getItem(HISTORY_KEY))||[]}catch{}
   $("#historyList").innerHTML=history.length?history.map(h=>`<div class="history-item"><div><strong>${escapeHtml(h.crop)} · ${escapeHtml(h.location)}</strong><small>${new Date(h.date).toLocaleString("pt-PT")} · ${h.days} dias de dados climáticos</small></div><span class="history-score">${h.score}/100</span></div>`).join(""):`<div class="empty-state"><span>◷</span><strong>Sem análises guardadas</strong><p>As análises calculadas aparecerão aqui.</p></div>`;
 }
-$("#clearHistory").addEventListener("click",()=>{if(confirm("Queres limpar o histórico guardado neste navegador?")){localStorage.removeItem(HISTORY_KEY);renderHistory();showToast("Histórico limpo.");}});
+$("#clearHistory").addEventListener("click",()=>{if(confirm("Queres limpar o histórico guardado neste navegador?")){localStorage.removeItem(HISTORY_KEY);renderHistory();updateWorkflow("historico");showToast("Histórico limpo.");}});
 
 async function boot() {
   initDates(); await loadCrops(); hydrateSoil(); updateLocationUI(); renderHistory();
@@ -296,5 +330,7 @@ async function boot() {
   if(!state.location){ // Coordenada de referência para facilitar o primeiro teste; só é gravada após confirmação.
     $("#latitude").value=DEFAULT_POINT.lat;$("#longitude").value=DEFAULT_POINT.lon;$("#placeName").value=DEFAULT_POINT.name;
   }
+  updateWorkflow("inicio");
 }
 boot();
+

@@ -15,22 +15,36 @@
 <body>
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
-      <a class="brand" href="#inicio" aria-label="Pambala início">
-        <span class="brand-mark">P</span><span><strong>Pambala</strong><small>AGRICULTURA INTELIGENTE</small></span>
+      <a class="brand" href="#inicio" aria-label="Pambala — início" data-go="inicio">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" role="img">
+            <path d="M24 5.5c-8.7 5.4-13.2 12.2-13.2 20.1 0 7.2 5.4 12.2 13.2 12.2s13.2-5 13.2-12.2C37.2 17.7 32.7 10.9 24 5.5Z" fill="none" stroke="currentColor" stroke-width="2.4"/>
+            <path d="M24 36.5V17.2m0 10.1c-4.1-4.1-7.2-5.1-10.3-5.2m10.3 1.5c3.8-4.2 6.8-5.3 10-5.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M18.5 40.5h11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="brand-copy"><strong>Pambala<span>.</span></strong><small>AGRICULTURA COM INTELIGÊNCIA</small></span>
       </a>
-      <div class="nav-caption">ESPAÇO DE TRABALHO</div>
+      <div class="sidebar-context">
+        <span class="context-label">WORKSPACE</span>
+        <span class="context-name">Gestão da exploração</span>
+      </div>
+      <div class="nav-caption">ÁREA DE TRABALHO</div>
       <nav class="main-nav" aria-label="Navegação principal">
-        <button class="nav-item active" data-view="inicio"><span class="nav-icon">⌂</span>Visão geral</button>
-        <button class="nav-item" data-view="localizacao"><span class="nav-icon">⌖</span>Localização</button>
-        <button class="nav-item" data-view="clima"><span class="nav-icon">☼</span>Dados ambientais</button>
-        <button class="nav-item" data-view="solo"><span class="nav-icon">♧</span>Perfil do terreno</button>
-        <button class="nav-item" data-view="culturas"><span class="nav-icon">♣</span>Culturas agrícolas</button>
-        <button class="nav-item" data-view="recomendacoes"><span class="nav-icon">✧</span>Recomendações</button>
-        <button class="nav-item" data-view="historico"><span class="nav-icon">◷</span>Histórico</button>
+        <button class="nav-item active" data-view="inicio"><span class="nav-icon">⌂</span><span>Visão geral</span></button>
+      </nav>
+      <div class="nav-caption workflow-caption">PROCESSO DE ANÁLISE <span>01—05</span></div>
+      <nav class="main-nav workflow-nav" aria-label="Etapas da análise agrícola">
+        <button class="nav-item workflow-item" data-view="localizacao" data-step="1"><span class="nav-icon">⌖</span><span class="nav-label">Localização</span><span class="nav-check">1</span></button>
+        <button class="nav-item workflow-item" data-view="clima" data-step="2"><span class="nav-icon">☼</span><span class="nav-label">Dados ambientais</span><span class="nav-check">2</span></button>
+        <button class="nav-item workflow-item" data-view="solo" data-step="3"><span class="nav-icon">♧</span><span class="nav-label">Perfil do terreno</span><span class="nav-check">3</span></button>
+        <button class="nav-item workflow-item" data-view="culturas" data-step="4"><span class="nav-icon">♣</span><span class="nav-label">Culturas agrícolas</span><span class="nav-check">4</span></button>
+        <button class="nav-item workflow-item" data-view="recomendacoes" data-step="5"><span class="nav-icon">✧</span><span class="nav-label">Recomendações</span><span class="nav-check">5</span></button>
       </nav>
       <div class="sidebar-bottom">
+        <button class="nav-item history-link" data-view="historico"><span class="nav-icon">◷</span><span>Histórico de análises</span></button>
         <div class="source-mini"><span class="pulse"></span><div><strong>Fontes transparentes</strong><small>Dados e limitações identificados</small></div></div>
-        <div class="sidebar-version">Pambala · versão inicial</div>
+        <div class="sidebar-version"><span class="version-dot"></span> Pambala · protótipo 1.1</div>
       </div>
     </aside>
 
@@ -38,9 +52,23 @@
       <header class="topbar">
         <button class="mobile-menu" id="mobileMenu" aria-label="Abrir menu">☰</button>
         <div><span class="topbar-kicker">PLATAFORMA DE APOIO AGRÍCOLA</span><h1 id="pageTitle">Visão geral</h1></div>
-        <div class="topbar-right"><span class="connection-dot"></span><span id="connectionText">Pronto para analisar</span><div class="avatar">PA</div></div>
+        <div class="topbar-right"><div class="avatar" aria-label="Pambala">PA</div></div>
       </header>
 
+      <div class="workflow-bar" aria-label="Progresso da análise">
+        <div class="workflow-heading"><span class="workflow-kicker">O TEU PERCURSO</span><strong id="workflowStatus">Começa por definir o terreno</strong></div>
+        <div class="workflow-track">
+          <button class="workflow-node" data-go="localizacao" data-progress-step="1"><span class="node-number">01</span><span class="node-label">Localização</span></button>
+          <span class="workflow-line"></span>
+          <button class="workflow-node" data-go="clima" data-progress-step="2"><span class="node-number">02</span><span class="node-label">Ambiente</span></button>
+          <span class="workflow-line"></span>
+          <button class="workflow-node" data-go="solo" data-progress-step="3"><span class="node-number">03</span><span class="node-label">Solo</span></button>
+          <span class="workflow-line"></span>
+          <button class="workflow-node" data-go="culturas" data-progress-step="4"><span class="node-number">04</span><span class="node-label">Culturas</span></button>
+          <span class="workflow-line"></span>
+          <button class="workflow-node" data-go="recomendacoes" data-progress-step="5"><span class="node-number">05</span><span class="node-label">Decisão</span></button>
+        </div>
+      </div>
       <div class="content">
         <!-- INÍCIO -->
         <section class="view active" id="view-inicio">
